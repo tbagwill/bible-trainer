@@ -1,26 +1,37 @@
 <script>
+	import { page } from '$app/stores';
+	import NavigationList from '$lib/components/NavigationList.svelte';
 	import HamburgerIcon from '$lib/icons/HamburgerIcon.svelte';
-import LogoutIcon from '$lib/icons/LogoutIcon.svelte';
-	import { currTab, navigateTabTo } from '$lib/stores/navigation';
+	import LogoutIcon from '$lib/icons/LogoutIcon.svelte';
+	import { AppShell, AppBar, Drawer, getDrawerStore } from '@skeletonlabs/skeleton';
 
-	import { AppShell, AppBar, ListBox, ListBoxItem, Drawer } from '@skeletonlabs/skeleton';
+	getDrawerStore()
 
-	let navValue = $currTab;
+	const drawerStore = getDrawerStore()
+
+	function drawerOpen() {
+    	drawerStore.open({});
+	}
+
 </script>
 
-<Drawer>
-
+<Drawer bgDrawer='bg-surface-500'>
+	<h3 class="text-3xl font-bold m-3 p-3">
+		Navigation
+	</h3>
+	<hr class="bg-surface-700"/>
+	<NavigationList />
 </Drawer>
 
 <AppShell>
 	<svelte:fragment slot="header">
 		<AppBar>
 			<svelte:fragment slot="lead">
-				<button class="lg:hidden btn btn-icon btn-md rounded-full">
-					<HamburgerIcon />
+				<button class="lg:hidden btn btn-icon btn-md rounded-full" on:click={ () => drawerOpen() }>
+					<HamburgerIcon color='white'/>
 				</button>	
 			</svelte:fragment>
-			<h3 class="text-3xl text-center">Bible Trainer</h3>
+			<h3 class="text-3xl text-center md:text-left">Bible Trainer</h3>
 			<svelte:fragment slot="trail">
 				<form action="/auth/logout" method="POST">
 					<button class="btn btn-icon" type="submit">
@@ -33,13 +44,8 @@ import LogoutIcon from '$lib/icons/LogoutIcon.svelte';
 	</svelte:fragment>
 
 	<svelte:fragment slot="sidebarLeft">
-		<div id="sidebar-left" class="w-0 md:w-52 h-full bg-surface-900" >
-			<ListBox spacing="space-y-2" padding="px-8 py-2" active="variant-filled-secondary" rounded="rounded-r-full">
-				<ListBoxItem bind:group={navValue} name="medium" value="dashboard" on:change={() => {navigateTabTo('dashboard')}}>Dashboard</ListBoxItem>
-				<ListBoxItem bind:group={navValue} name="medium" value="scripture" on:change={() => {navigateTabTo('scripture')}}>Scripture</ListBoxItem>
-				<ListBoxItem bind:group={navValue} name="medium" value="memoryverse" on:change={() => {navigateTabTo('memoryverse')}}>Memory Verse</ListBoxItem>
-				<ListBoxItem bind:group={navValue} name="medium" value="search" on:change={() => {navigateTabTo('search')}}>Search</ListBoxItem>
-			</ListBox>
+		<div id="sidebar-left" class="w-0 md:w-52 h-full bg-surface-800" >
+			<NavigationList />
 		</div>
 	</svelte:fragment>
 
