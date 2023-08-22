@@ -6,7 +6,7 @@
 </script>
 
 <div class="flex flex-col items-center w-full p-4">
-    <div class="grid grid-cols-5 gap-4 w-full">
+    <div class="grid grid-cols-3 md:grid-cols-5 gap-4 w-full">
         {#each chapters as chapter}
             <div class="flex w-full justify-center">
                 <a class="w-full" href="/home/scripture/{chapter.bookId}/{chapter.id}">
