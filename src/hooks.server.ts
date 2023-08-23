@@ -1,8 +1,9 @@
 import '$lib/supabaseClient'
-import type { Handle } from '@sveltejs/kit'
+import type { Handle, HandleServerError } from '@sveltejs/kit'
 import { PUBLIC_SUPABASE_URL, PUBLIC_SUPABASE_KEY } from '$env/static/public'
 import { createSupabaseServerClient } from '@supabase/auth-helpers-sveltekit'
 import { redirect } from '@sveltejs/kit'
+import crypto from 'crypto'
 
 export const handle: Handle = async ({ event, resolve }) => {
   event.locals.supabase = createSupabaseServerClient({
@@ -31,4 +32,12 @@ export const handle: Handle = async ({ event, resolve }) => {
       return name === 'content-range'
     },
   })
+}
+
+export const handleError: HandleServerError = async ({ error, event }) => {
+  const errorId = crypto.randomUUID()
+  return {
+    errorId,
+    message: 'Whoops!',
+  }
 }
