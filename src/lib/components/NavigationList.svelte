@@ -1,4 +1,5 @@
 <script>
+	import { page } from "$app/stores";
     import { getDrawerStore } from "@skeletonlabs/skeleton";
 
     const drawerStore = getDrawerStore();
