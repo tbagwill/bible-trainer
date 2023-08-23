@@ -1,6 +1,13 @@
 <script>
 	import { enhance } from '$app/forms';
+	import { page } from '$app/stores';
 </script>
+
+{#if $page.error}
+	<div class='alert'>
+		{$page.error.message}
+	</div>
+{/if}
 
 <div class="flex h-full justify-center p-8">
 	<div class="flex flex-col text-center">

@@ -5,15 +5,10 @@
 	import { page } from '$app/stores';
 
 	let message: string;
-	let count = 0;
 
 	$: {
 		message = $page.url.searchParams.get('message') ?? '';
 	} 
-
-	function increment() {
-		count++;
-	}
 </script>
 
 {#if message}
@@ -48,7 +43,6 @@
 					<button
 					type="submit"
 					class="btn btn-md variant-filled-primary mt-4"
-					on:click={() => increment()}
 					>
 					<ArrowForwardIcon color="--on-primary" />
 				</button>

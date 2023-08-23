@@ -4,16 +4,25 @@
 
     const drawerStore = getDrawerStore();
 
+    const links = {
+        dashboard: '/home/dashboard',
+        scripture: '/home/scripture',
+        memory: '/home/memoryverse',
+        search: '/home/search'
+    }
+
     function drawerClose() {
         drawerStore.close();
     }
+
+    $: classesActive = href => (href === $page.url.pathname ? 'bg-primary-900 font-semibold' : '')
 </script>
 
 <nav class="list-nav p-2">
     <ul class="m-2">
-        <li><a id="dashboard" href="/home/dashboard" on:click={() => drawerClose()}>Dashboard</a></li>
-		<li><a id="scripture" href="/home/scripture" on:click={() => drawerClose()}>Scripture</a></li>
-		<li><a id="memoryverse" href="/home/memoryverse" on:click={() => drawerClose()}>Memory Verse</a></li>
-		<li><a id="search" href="/home/search" on:click={() => drawerClose()}>Search</a></li>
+        <li><a id="dashboard" href={links.dashboard} class={classesActive(links.dashboard)} on:click={() => drawerClose()}>Dashboard</a></li>
+		<li><a id="scripture" href={links.scripture} class={classesActive(links.scripture)} on:click={() => drawerClose()}>Scripture</a></li>
+		<li><a id="memoryverse" href={links.memory} class={classesActive(links.memory)} on:click={() => drawerClose()}>Memory Verse</a></li>
+		<li><a id="search" href={links.search} class={classesActive(links.search)} on:click={() => drawerClose()}>Search</a></li>
     </ul>
 </nav>

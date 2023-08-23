@@ -12,10 +12,11 @@ export const actions: Actions = {
             type: "email",
             options: { redirectTo: `${url.origin}/home/dashboard`}
         });
-        if(err){
-            console.log("error details:", err);
-        }
 
-        throw redirect(303, `${url.origin}/home/dashboard`);
+        if(err){
+            throw new Error('Uh oh!')
+        } else {
+            throw redirect(300, `${url.origin}/home/dashboard`)
+        }
     }
 };
