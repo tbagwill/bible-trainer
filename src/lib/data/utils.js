@@ -1,7 +1,7 @@
 export function getVerseReference( verseId ) {
     const oldString = verseId;
 
-    const strCut = oldString.slice( 4 );
+    const strCut = oldString.slice( 5 );
 
     const index = strCut.indexOf('.');
 
