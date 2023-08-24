@@ -16,6 +16,7 @@
 
 	import { page } from '$app/stores';
 	import Logout from '$lib/components/Logout.svelte';
+	import { userPref } from '$lib/stores/userStore';
 	
 	export let data;
 	let { supabase, session } = data;
@@ -59,13 +60,13 @@
 
 <div class="card flex-col items-center bg-surface-700 w-16 shadow-xl py-2 z-100" style="z-index:1000" data-popup="popupProfile">
 	<ListBox rounded="rounded-none">
-		<ListBoxItem spacing='space-x-2' padding='px-2 py-2' regionDefault='flex flex-row justify-center' bind:group={profileDropValue} name="medium" value="profile" on:click={ () => goto('/profile') }>
+		<ListBoxItem spacing='space-x-2' padding='px-2 py-2' regionDefault='flex flex-row justify-center' bind:group={profileDropValue} name="medium" value="profile" on:click={ () => goto('/home/profile') }>
 			<AboutIcon />
 		</ListBoxItem>
-		<ListBoxItem spacing='space-x-2' padding='px-2 py-2' regionDefault='flex flex-row justify-center' bind:group={profileDropValue} name="medium" value="settings" on:click={ () => goto('/profile/settings') }>
+		<ListBoxItem spacing='space-x-2' padding='px-2 py-2' regionDefault='flex flex-row justify-center' bind:group={profileDropValue} name="medium" value="settings" on:click={ () => goto('/home/profile/settings') }>
 			<SettingsIcon />
 		</ListBoxItem>
-		<ListBoxItem spacing='space-x-2' padding='px-2 py-2' regionDefault='flex flex-row justify-center' bind:group={profileDropValue} name="medium" value="logout" on:click={ () => goto('/profile') }>
+		<ListBoxItem spacing='space-x-2' padding='px-2 py-2' regionDefault='flex flex-row justify-center' bind:group={profileDropValue} name="medium" value="logout">
 				<Logout />
 		</ListBoxItem>
 	</ListBox>
@@ -97,7 +98,7 @@
 			<svelte:fragment slot="trail">
 				
 				<button class="btn btn-icon variant-ghost justify-between mx-2 md:mx-4 my-2" use:popup={popupProfile}>
-					<Avatar initials={ session?.user.email?.charAt(0) }>
+					<Avatar initials={ session?.user.email?.charAt(0) } src={userPref.img} border='hover:!border-primary-500 hover:border-2'>
 
 					</Avatar>
 				</button>

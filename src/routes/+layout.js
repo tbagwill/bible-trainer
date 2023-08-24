@@ -1,7 +1,9 @@
 import { PUBLIC_SUPABASE_KEY, PUBLIC_SUPABASE_URL } from '$env/static/public';
+import { loadUser } from '$lib/stores/userStore.js';
 import { createSupabaseLoadClient } from '@supabase/auth-helpers-sveltekit';
+import { redirect } from '@sveltejs/kit';
 
-export const load = async ({ fetch, data, depends }) => {
+export const load = async ({ fetch, data, depends, url }) => {
 	depends('supabase:auth');
 
 	const supabase = createSupabaseLoadClient({
@@ -14,6 +16,14 @@ export const load = async ({ fetch, data, depends }) => {
 	const {
 		data: { session }
 	} = await supabase.auth.getSession();
+
+	if( session ) {
+		await loadUser( session.user.id )
+	}
+
+	if( url.pathname.includes('home') && !session ) {
+		throw redirect( 308, '/')
+	}
 
 	return { supabase, session };
 };
