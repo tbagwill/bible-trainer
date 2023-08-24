@@ -7,7 +7,7 @@
     const links = {
         dashboard: '/home/dashboard',
         scripture: '/home/scripture',
-        memory: '/home/memoryverse',
+        learn: '/home/learn',
         search: '/home/search'
     }
 
@@ -22,7 +22,7 @@
     <ul class="m-2">
         <li><a id="dashboard" href={links.dashboard} class={classesActive(links.dashboard)} on:click={() => drawerClose()}>Dashboard</a></li>
 		<li><a id="scripture" href={links.scripture} class={classesActive(links.scripture)} on:click={() => drawerClose()}>Scripture</a></li>
-		<li><a id="memoryverse" href={links.memory} class={classesActive(links.memory)} on:click={() => drawerClose()}>Memory Verse</a></li>
+		<li><a id="learn" href={links.learn} class={classesActive(links.memory)} on:click={() => drawerClose()}>Learn</a></li>
 		<li><a id="search" href={links.search} class={classesActive(links.search)} on:click={() => drawerClose()}>Search</a></li>
     </ul>
 </nav>

@@ -1,9 +1,12 @@
 import { PUBLIC_BIBLE_API_KEY } from '$env/static/public';
-/** @type {import('./$types').PageLoad} */
+import { userPref } from '$lib/stores/userStore';
 
-export async function load({ fetch, params }) {
+export async function load({ fetch, params, parent }) {
+    await parent()
+    const preferred = userPref.preferred_bible_version
+    
     const res = await fetch(
-        `https://api.scripture.api.bible/v1/bibles/de4e12af7f28f599-01/books/${params.bookId}/chapters`,
+        `https://api.scripture.api.bible/v1/bibles/${preferred}/books/${params.bookId}/chapters`,
         {
             headers: {
                 'api-key': PUBLIC_BIBLE_API_KEY

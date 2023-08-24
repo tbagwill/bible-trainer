@@ -38,6 +38,6 @@ export const handleError: HandleServerError = async ({ error, event }) => {
   const errorId = crypto.randomUUID()
   return {
     errorId,
-    message: 'Whoops!',
+    message: 'Unknown error occurred.',
   }
 }

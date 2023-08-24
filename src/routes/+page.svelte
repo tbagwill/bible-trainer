@@ -1,13 +1,13 @@
-<!-- YOU CAN DELETE EVERYTHING IN THIS PAGE -->
 <script lang="ts">
 	import { ArrowForwardIcon } from '$lib/icons';
 	import { enhance } from '$app/forms';
 	import { page } from '$app/stores';
 
 	let message: string;
-
+	let submitFail: string;
+	
 	$: {
-		message = $page.url.searchParams.get('message') ?? '';
+		message = $page.error?.message ?? '';
 	} 
 </script>
 
@@ -28,9 +28,10 @@
 	
 	<div class="card p-4 variant-glass-surface w-11/12 lg:w-1/2">
 		<div class="p-2 gap-2">
-			<form class="gap-2 p-2 m-2" method="POST">
+			<form class="gap-2 p-2 m-2" method="POST" use:enhance>
 				<div>
 					<label class="label mb-2" for="email"> Email </label>
+					<p class={submitFail}></p>
 					<input
 					class="input p-2 pl-4 mb-2"
 					title="Input (email)"
