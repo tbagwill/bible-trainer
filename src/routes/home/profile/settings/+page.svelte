@@ -11,7 +11,7 @@
     let bibleVersion = userPref.preferred_bible_version;
     let file;
     let newFile;
-    let name;
+    let name = userPref.name;
 
     const showPreview = (event) => {
         const target = event.target
@@ -26,8 +26,6 @@
 
     $: {
         newFile = file ? file[0] : userPref.img
-        console.log( newFile )
-        console.log( userPref )
     }
 
 </script>

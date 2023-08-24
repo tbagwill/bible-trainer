@@ -33,23 +33,21 @@ export async function load ({ fetch, locals, parent }) {
             const user = session.user.id
             
             const formData = await request.formData()
-            console.log( 'form data received', formData)
-            const userImage = formData.get('avatar') 
-            console.log( 'img info', userImage )
-            // const userName = formData.get('name') ?? null
-            // const bibleVersion = formData.get('version') ?? userPref.preferred_bible_version
-            
 
+            const userImage = formData.get('avatar') 
+            const userName = formData.get('name') ?? null
+            const bibleVersion = formData.get('version') ?? userPref.preferred_bible_version
+            
             // update name and version
-            // const { data, error: err } = await locals.supabase.from('users_data')
-            // .update({
-            //     preferred_bible_version: bibleVersion.toString(),
-            //     name: userName
-            // })
-            // .eq(
-            //     'id', user
-            // )
-            // .select()
+            const { data, error: err } = await locals.supabase.from('users_data')
+            .update({
+                preferred_bible_version: bibleVersion.toString(),
+                name: userName
+            })
+            .eq(
+                'id', user
+            )
+            .select()
 
             // if they uploaded an image
             if( userImage ){
@@ -62,7 +60,6 @@ export async function load ({ fetch, locals, parent }) {
                         })
 
                     console.error( 'step 2 ', err )
-                    console.log( data )
                 }
             
             if( err ){

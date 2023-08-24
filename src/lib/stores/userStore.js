@@ -19,8 +19,6 @@ export async function loadUser( userId ) {
         return fail(500, 'Could not retrieve')
     }
 
-    console.log( img )
-
     if( users_data ) {
         userStore.set({
            ...users_data[0],
