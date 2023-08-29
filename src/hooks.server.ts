@@ -3,7 +3,6 @@ import type { Handle, HandleServerError } from '@sveltejs/kit'
 import { PUBLIC_SUPABASE_URL, PUBLIC_SUPABASE_KEY } from '$env/static/public'
 import { createSupabaseServerClient } from '@supabase/auth-helpers-sveltekit'
 import { redirect } from '@sveltejs/kit'
-import crypto from 'crypto'
 
 export const handle: Handle = async ({ event, resolve }) => {
   event.locals.supabase = createSupabaseServerClient({
@@ -17,6 +16,13 @@ export const handle: Handle = async ({ event, resolve }) => {
       data: { session },
     } = await event.locals.supabase.auth.getSession();
     return session;
+  }
+
+  event.locals.getUser = async () => {
+    const {
+      data: { user },
+    } = await event.locals.supabase.auth.getUser();
+    return user;
   }
 
   if (event.url.pathname.startsWith(`${event.url.origin}/home`)) {
@@ -34,10 +40,10 @@ export const handle: Handle = async ({ event, resolve }) => {
   })
 }
 
-export const handleError: HandleServerError = async ({ error, event }) => {
-  const errorId = crypto.randomUUID()
-  return {
-    errorId,
-    message: 'Unknown error occurred.',
-  }
-}
+// export const handleError: HandleServerError = async ({ error, event }) => {
+//   const errorId = crypto.randomUUID()
+//   return {
+//     errorId,
+//     message: 'Unknown error occurred.',
+//   }
+// }
