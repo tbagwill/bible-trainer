@@ -1,70 +1,54 @@
 /** @type {import('./$types').Actions} */
-import { PUBLIC_BIBLE_API_KEY } from "$env/static/public";
-import { userPref } from "$lib/stores/userStore";
+import { PUBLIC_BIBLE_API_KEY } from '$env/static/public';
+import { updatePreferencesSchema } from '$lib/data/validSchemas';
+import { superValidate } from 'sveltekit-superforms/server';
+import { fail } from '@sveltejs/kit';
+import { userImage } from '$lib/stores/userStore';
 
-export async function load ({ fetch, locals, parent }) {
-    await parent()
-    const res = await fetch( 
-        `https://api.scripture.api.bible/v1/bibles?language=eng`,
-        {
-            headers: {
-                'api-key': PUBLIC_BIBLE_API_KEY
-            }
-        })
-        .then( ( response ) => response.json() )
-        .then( ( versions ) => {
-            const data = versions.data
-            return data
-        }).catch( ( err ) => {
-            console.log( err );
-        })
+export async function load({ event, fetch, locals, parent }) {
+	await parent();
+	const preferencesForm = await superValidate(updatePreferencesSchema);
 
-    const versions = res 
+	const res = await fetch(`https://api.scripture.api.bible/v1/bibles?language=eng`, {
+		headers: {
+			'api-key': PUBLIC_BIBLE_API_KEY
+		}
+	})
+		.then((response) => response.json())
+		.then((versions) => {
+			const data = versions.data;
+			return data;
+		})
+		.catch((err) => {
+			console.log(err);
+		});
 
-    return {
-        versions: versions
-    }
+	const versions = res;
 
+	return {
+		versions: versions,
+		preferencesForm
+	};
 }
 
-    export const actions = {
-        updatePreferences: async ({ request, locals }) => {
-            const session = await locals.getSession()
-            const user = session.user.id
-            
-            const formData = await request.formData()
+export const actions = {
+	updatePreferences: async ({ request, locals }) => {
+		const preferencesForm = await superValidate(request, updatePreferencesSchema);
 
-            const userImage = formData.get('avatar') 
-            const userName = formData.get('name') ?? null
-            const bibleVersion = formData.get('version') ?? userPref.preferred_bible_version
-            
-            // update name and version
-            const { data, error: err } = await locals.supabase.from('users_data')
-            .update({
-                preferred_bible_version: bibleVersion.toString(),
-                name: userName
-            })
-            .eq(
-                'id', user
-            )
-            .select()
+		console.log('updateForm: ', preferencesForm);
 
-            // if they uploaded an image
-            if( userImage ){
-                    const { data, error: err } = await locals.supabase.storage
-                        .from('avatars')
-                        .upload(`${user}/avatar.png`, userImage, {
-                            cacheControl: '60',
-                            upsert: true,
-                            contentType: 'image/png'
-                        })
+		if (!preferencesForm.valid) return fail(400, { preferencesForm, invalid: true });
 
-                    console.error( 'step 2 ', err )
-                }
-            
-            if( err ){
-                console.error( err )
-            }
+		userImage.set('');
 
-        }
-    };
+		const { user, error: err } = await locals.supabase.auth.updateUser({
+			data: preferencesForm.data
+		});
+
+		locals.user = locals.getUser();
+
+		if (err) return fail(400, { err, invalid: true });
+
+		return { preferencesForm, success: true };
+	}
+};

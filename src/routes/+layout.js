@@ -17,13 +17,15 @@ export const load = async ({ fetch, data, depends, url }) => {
 		data: { session }
 	} = await supabase.auth.getSession();
 
-	if( session ) {
-		await loadUser( session.user.id )
+	const {
+		data: { user }
+	} = await supabase.auth.getUser();
+
+	if (url.pathname.includes('home') && !session) {
+		throw redirect(308, '/');
+	} else if (session) {
+		loadUser(user);
 	}
 
-	if( url.pathname.includes('home') && !session ) {
-		throw redirect( 308, '/')
-	}
-
-	return { supabase, session };
+	return { supabase, session, user };
 };
