@@ -40,7 +40,6 @@ export async function load({ params, parent }) {
 	const chapter = res;
 
 	const verses = vres;
-	console.log(verses);
 
 	return {
 		chapter: chapter,

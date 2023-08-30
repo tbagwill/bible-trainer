@@ -3,6 +3,8 @@
 	import { superForm } from 'sveltekit-superforms/client';
 	import { ArrowForwardIcon } from '$lib/icons';
 	import { fade } from 'svelte/transition';
+	import VisibleIcon from '$lib/icons/VisibleIcon.svelte';
+	import VisibleOffIcon from '$lib/icons/VisibleOffIcon.svelte';
 
 	export let data;
 	export let form;
@@ -16,6 +18,16 @@
 		errors: signupErrors,
 		enhance: signupEnhance
 	} = superForm(data.signupForm, { resetForm: true });
+
+	let passwordVisible = false;
+
+	const changePasswordVisibility = (id: string) => {
+		const input: HTMLInputElement = document.getElementById(id) as HTMLInputElement;
+		passwordVisible = !passwordVisible;
+
+		if (passwordVisible) input.type = 'text';
+		else input.type = 'password';
+	};
 </script>
 
 <div class="container h-full mx-auto flex flex-col justify-start items-center">
@@ -25,6 +37,7 @@
 
 	<div class="card p-4 variant-glass-surface w-11/12 lg:w-1/2">
 		<div class="w-full flex flex-col">
+			<!-- svelte-ignore a11y-click-events-have-key-events -->
 			<TabGroup justify="justify-center">
 				<Tab bind:group={tab} name="login" value="login">
 					<h2 class="text-md font-semibold">Login</h2>
@@ -81,16 +94,28 @@
 							{#if $signupErrors.email}<span class="invalid">{$signupErrors.email}</span>{/if}
 
 							<label class="label mb-2" for="password"> Password </label>
-
-							<input
-								class="input p-2 pl-4 mb-2"
-								title="Input (password)"
-								name="password"
-								type="password"
-								placeholder="Create your password"
-								autocomplete="new-password"
-								bind:value={$signupForm.password}
-							/>
+							<div class="relative inline-block w-full">
+								<input
+									class="input p-2 pl-4 mb-2 password-input"
+									id="signup-input"
+									title="Input (password)"
+									name="password"
+									type="password"
+									placeholder="Create your password"
+									autocomplete="new-password"
+									bind:value={$signupForm.password}
+								/>
+								<span
+									class="btn btn-icon w-9 h-9 bg-surface-900 top-[6%] absolute right-1 z-10 p-1"
+									on:click={() => changePasswordVisibility('signup-input')}
+								>
+									{#if passwordVisible}
+										<VisibleOffIcon />
+									{:else}
+										<VisibleIcon />
+									{/if}
+								</span>
+							</div>
 							{#if $signupErrors.password}<span class="invalid">{$signupErrors.password}</span>{/if}
 							{#if form?.invalid}
 								<aside class="alert variant-ghost-error mt-4" transition:fade>
@@ -128,16 +153,28 @@
 							{#if $errors.email}<span class="alert">{$errors.email}</span>{/if}
 
 							<label class="label mb-2" for="password"> Password </label>
-
-							<input
-								class="input p-2 pl-4 mb-2"
-								title="Input (password)"
-								name="password"
-								type="password"
-								placeholder="Create your password"
-								autocomplete="new-password"
-								bind:value={$loginForm.password}
-							/>
+							<div class="relative inline-block w-full">
+								<input
+									class="input p-2 pl-4 mb-2 password-input"
+									title="Input (password)"
+									id="login-input"
+									name="password"
+									type="password"
+									placeholder="Create your password"
+									autocomplete="new-password"
+									bind:value={$loginForm.password}
+								/>
+								<span
+									class="btn btn-icon w-9 h-9 bg-surface-900 top-[6%] absolute right-1 z-10 p-1"
+									on:click={() => changePasswordVisibility('login-input')}
+								>
+									{#if passwordVisible}
+										<VisibleOffIcon />
+									{:else}
+										<VisibleIcon />
+									{/if}
+								</span>
+							</div>
 							{#if $errors.password}<span class="invalid">{$errors.password}</span>{/if}
 							{#if form?.invalid}
 								<aside class="alert variant-ghost-error mt-4" transition:fade>

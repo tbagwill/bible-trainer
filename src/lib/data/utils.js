@@ -20,3 +20,15 @@ export const showPreview = (event, elementId) => {
 		preview.src = src;
 	}
 };
+
+export function togglePasswordVisibility(id, showPassword) {
+	const passwordInput = document.getElementById(id);
+	console.log(passwordInput);
+	showPassword = !showPassword;
+	if (showPassword) {
+		passwordInput.type = 'text';
+	} else {
+		passwordInput.type = 'password';
+	}
+	return null;
+}

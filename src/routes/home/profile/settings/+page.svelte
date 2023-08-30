@@ -69,7 +69,7 @@
 		<div class="flex flex-row justify-center ml-10">
 			<Avatar
 				id="avatar-preview"
-				initials={user.email.charAt(0)}
+				initials={user?.user_metadata.username.charAt(0) ?? ''}
 				width="w-32 md:48"
 				shadow="shadow-2xl"
 				src={previewImg}

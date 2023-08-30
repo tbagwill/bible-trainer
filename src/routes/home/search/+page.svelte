@@ -11,7 +11,7 @@
 		<input
 			name="query"
 			class="input p-2 pl-4"
-			placeholder="Search through scripture"
+			placeholder="Search through scripture (Top 10 results)"
 			bind:value={query}
 		/>
 	</form>
