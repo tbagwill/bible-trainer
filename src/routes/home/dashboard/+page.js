@@ -1,4 +1,8 @@
-import { PUBLIC_BIBLE_API_KEY } from '$env/static/public';
+import {
+	PUBLIC_BIBLE_API_KEY,
+	PUBLIC_RAPID_API_HOST_URL,
+	PUBLIC_RAPID_API_KEY
+} from '$env/static/public';
 import { getVOTD } from '$lib/data/votd';
 
 export async function load({ parent }) {
@@ -24,7 +28,18 @@ export async function load({ parent }) {
 
 	const verse = res;
 
+	const dev = await fetch(`https://${PUBLIC_RAPID_API_HOST_URL}/verse/${verse.reference}`, {
+		headers: {
+			'X-RapidAPI-Key': PUBLIC_RAPID_API_KEY,
+			'X-RapidAPI-Host': PUBLIC_RAPID_API_HOST_URL
+		}
+	});
+
+	const result = await dev.json();
+	const devotional = result.results;
+
 	return {
-		verse: verse
+		verse: verse,
+		devotional: devotional
 	};
 }

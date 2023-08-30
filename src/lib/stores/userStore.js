@@ -6,4 +6,5 @@ export const userImage = writable('');
 
 export function loadUser(user) {
 	userInfo.set(user.user_metadata);
+	console.log('user store set: ', user.user_metadata);
 }

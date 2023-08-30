@@ -1,3 +1,7 @@
+# documentation
+
+Powered by [`API.Bible`](https://scripture.api.bible/) & [`Uncovered Treasure API`](https://rapidapi.com/acg/api/uncovered-treasure)
+
 # create-svelte
 
 Everything you need to build a Svelte project, powered by [`create-svelte`](https://github.com/sveltejs/kit/tree/master/packages/create-svelte).

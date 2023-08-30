@@ -3,7 +3,7 @@
 </script>
 
 <div class="card shadow-2xl w-11/12 variant-outline-secondary p-4 mb-2">
-	<a href="/{verse.bookId}/{verse.chapterId}/{verse.id}">
+	<a href="/home/scripture/{verse.bookId}/{verse.chapterId}/{verse.id}">
 		<header class="card-header mb-4">
 			<h3 class="text-2xl font-bold">
 				{verse.reference}

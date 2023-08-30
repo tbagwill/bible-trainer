@@ -79,13 +79,11 @@
 		};
 	});
 
-	// @ts-ignore
-	let userImg = $userInfo.userImage;
 	let cancelShell: string | string;
 
 	// prettier-ignore
 	$: if (browser) cancelShell = $page.route.id === '/' || $page.route.id === '/confirm' ? 'hidden' : '';
-	$: avatar = userImg ? user?.user_metadata.userImage : '';
+	$: avatar = user ? user?.user_metadata.userImage : '';
 </script>
 
 <Toast />
@@ -156,7 +154,7 @@
 
 <AppShell slotHeader={cancelShell} slotSidebarLeft={cancelShell}>
 	<svelte:fragment slot="header">
-		<AppBar>
+		<AppBar background="bg-surface-700">
 			<svelte:fragment slot="lead">
 				<button class="lg:hidden btn btn-icon btn-md rounded-full" on:click={() => drawerOpen()}>
 					<HamburgerIcon color="white" />

@@ -15,7 +15,8 @@
 		drawerStore.close();
 	}
 
-	$: classesActive = (href) => (href === $page.url.pathname ? 'bg-primary-900 font-semibold' : '');
+	$: classesActive = (href) =>
+		$page.url.pathname.includes(href) ? 'bg-primary-900 font-semibold' : '';
 </script>
 
 <nav class="list-nav p-2">
@@ -24,7 +25,7 @@
 			<a
 				id="dashboard"
 				href={links.dashboard}
-				class={classesActive(links.dashboard)}
+				class="focus:bg-white-500 {classesActive(links.dashboard)}"
 				on:click={() => drawerClose()}>Dashboard</a
 			>
 		</li>
