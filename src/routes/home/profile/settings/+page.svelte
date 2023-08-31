@@ -45,8 +45,8 @@
 		resetForm: false,
 		onUpdated: () => {
 			if (svelteForm?.success) {
-				userImage.set('');
 				toastStore.trigger(profileChangeToast);
+				userImage.set('');
 			} else toastStore.trigger(profileChangeErrorToast);
 		}
 	});
