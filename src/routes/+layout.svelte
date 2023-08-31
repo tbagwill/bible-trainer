@@ -95,7 +95,7 @@
 		<AppBar background="bg-surface-700">
 			<svelte:fragment slot="lead">
 				<button class="lg:hidden btn btn-icon btn-md rounded-full" on:click={() => drawerOpen()}>
-					<HamburgerIcon color="rgba(var(--on-secondary))" />
+					<HamburgerIcon color="rgb(var(--on-surface))" />
 				</button>
 			</svelte:fragment>
 

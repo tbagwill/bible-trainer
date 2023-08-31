@@ -2,7 +2,7 @@
 	import { page } from '$app/stores';
 	import { AddIcon } from '$lib/icons';
 	import { Avatar, getModalStore } from '@skeletonlabs/skeleton';
-	import { userImage, userInfo } from '$lib/stores/userStore';
+	import { userImage } from '$lib/stores/userStore';
 	import { superForm } from 'sveltekit-superforms/client';
 	import { getToastStore } from '@skeletonlabs/skeleton';
 
@@ -76,7 +76,7 @@
 
 			<div class="relative right-11 top-20">
 				<button class="btn btn-icon variant-filled-primary" on:click={() => showModal()}>
-					<AddIcon color="fill-on-primary-token" />
+					<AddIcon color="rgb(var(--on-secondary))" />
 				</button>
 			</div>
 		</div>
