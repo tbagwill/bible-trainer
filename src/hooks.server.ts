@@ -31,7 +31,6 @@ export const handle: Handle = async ({ event, resolve }) => {
       throw redirect( 303, '/' );
     }
   }
-     
 
   return resolve(event, {
     filterSerializedResponseHeaders(name) {
@@ -40,10 +39,10 @@ export const handle: Handle = async ({ event, resolve }) => {
   })
 }
 
-// export const handleError: HandleServerError = async ({ error, event }) => {
-//   const errorId = crypto.randomUUID()
-//   return {
-//     errorId,
-//     message: 'Unknown error occurred.',
-//   }
-// }
+export const handleError: HandleServerError = async ({ error, event }) => {
+  const errorId = crypto.randomUUID()
+  return {
+    errorId,
+    message: 'Unknown error occurred.',
+  }
+}

@@ -2,10 +2,9 @@
 	import { page } from '$app/stores';
 	import { AddIcon } from '$lib/icons';
 	import { Avatar, getModalStore } from '@skeletonlabs/skeleton';
-	import { userImage, userInfo, loadUser } from '$lib/stores/userStore';
+	import { userImage, userInfo } from '$lib/stores/userStore';
 	import { superForm } from 'sveltekit-superforms/client';
 	import { getToastStore } from '@skeletonlabs/skeleton';
-	import { onMount } from 'svelte';
 
 	export let data;
 	$: svelteForm = $page.form;
@@ -56,7 +55,7 @@
 	const versions = $page.data.versions;
 	const modalStore = getModalStore();
 
-	$: previewImg = $userImage === '' ? $userInfo.userImage : $userImage;
+	$: previewImg = $userImage === '' ? user.user_metadata.userImage : $userImage;
 </script>
 
 <div class="flex flex-col w-full p-4 space-y-4">
@@ -98,7 +97,7 @@
 				name="username"
 				class="input w-full rounded-lg"
 				placeholder="Username"
-				bind:value={$userInfo.username}
+				bind:value={user.user_metadata.username}
 			/>
 			{#if $errors.username}<p class="invalid">{$errors.username}</p>{/if}
 		</div>
@@ -109,7 +108,7 @@
 				name="name"
 				class="input w-full rounded-lg"
 				placeholder="John"
-				bind:value={$userInfo.name}
+				bind:value={user.user_metadata.name}
 			/>
 			{#if $errors.name}<p class="invalid">{$errors.name}</p>{/if}
 		</div>
@@ -120,7 +119,7 @@
 			id="version"
 			class="select w-full"
 			form="preference"
-			bind:value={$userInfo.version}
+			bind:value={user.user_metadata.version}
 		>
 			<!-- <option disabled selected> Choose your preferred text </option> -->
 			{#each versions as version}
