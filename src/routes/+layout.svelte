@@ -14,6 +14,7 @@
 		initializeStores,
 		ListBox,
 		ListBoxItem,
+		LightSwitch,
 		Modal,
 		getModalStore,
 		Toast,
@@ -27,10 +28,10 @@
 		type ToastStore
 	} from '@skeletonlabs/skeleton';
 
-	import { userInfo } from '$lib/stores/userStore';
 	import { NavigationList, Logout, ProfileImagePopup } from '$lib/components';
 	import { HamburgerIcon, LogoutIcon, AboutIcon, SettingsIcon } from '$lib/icons';
 	import { computePosition, autoUpdate, offset, shift, flip, arrow } from '@floating-ui/dom';
+	import { loadUser, userInfo } from '$lib/stores/userStore';
 
 	export let data;
 	let { supabase, session, user } = data;
@@ -42,14 +43,6 @@
 
 	storePopup.set({ computePosition, autoUpdate, offset, shift, flip, arrow });
 	let profilePopValue: string;
-
-	const profilePop: PopupSettings = {
-		event: 'focus-click',
-		target: 'profilePop',
-		placement: 'bottom',
-		middleware: { offset: 24 },
-		closeQuery: '.listbox-item'
-	};
 
 	const modalComponentRegistry: Record<string, ModalComponent> = {
 		// Custom Modal 1
@@ -74,6 +67,7 @@
 		} = supabase.auth.onAuthStateChange(() => {
 			invalidateAll();
 		});
+
 		return () => {
 			subscription.unsubscribe();
 		};
@@ -96,68 +90,12 @@
 	<NavigationList />
 </Drawer>
 
-<div class="card w-40 shadow-2xl py-3 px-2" data-popup="profilePop" style="z-index:1000">
-	<ListBox
-		rounded="rounded-none"
-		spacing="space-y-4"
-		active="variant-soft-primary"
-		hover="hover:variant-soft-secondary"
-	>
-		<ListBoxItem
-			bind:group={profilePopValue}
-			id="profile"
-			name="medium"
-			value="profile"
-			rounded="rounded-full"
-			spacing="space-x-4"
-			on:click={() => {
-				goto('/home/profile'), (profilePopValue = '');
-			}}
-		>
-			<svelte:fragment slot="lead">
-				<AboutIcon color="white" />
-			</svelte:fragment>
-			Profile
-		</ListBoxItem>
-		<ListBoxItem
-			bind:group={profilePopValue}
-			id="settings"
-			name="medium"
-			value="settings"
-			rounded="rounded-full"
-			spacing="space-x-4"
-			on:click={() => {
-				goto('/home/profile/settings'), (profilePopValue = '');
-			}}
-		>
-			<svelte:fragment slot="lead">
-				<SettingsIcon color="white" />
-			</svelte:fragment>
-			Settings
-		</ListBoxItem>
-		<ListBoxItem
-			bind:group={profilePopValue}
-			id="logout"
-			name="medium"
-			value="logout"
-			rounded="rounded-full"
-			spacing="space-x-4"
-		>
-			<svelte:fragment slot="lead">
-				<LogoutIcon color="red" />
-			</svelte:fragment>
-			<Logout />
-		</ListBoxItem>
-	</ListBox>
-	<div class="arrow bg-surface-100-800-token" />
-</div>
-
 <AppShell slotHeader={cancelShell} slotSidebarLeft={cancelShell}>
 	<svelte:fragment slot="header">
 		<AppBar background="bg-surface-700">
 			<svelte:fragment slot="lead">
 				<button class="lg:hidden btn btn-icon btn-md rounded-full" on:click={() => drawerOpen()}>
-					<HamburgerIcon color="white" />
+					<HamburgerIcon color="rgb(var(--on-surface))" />
 				</button>
 			</svelte:fragment>
 
@@ -167,9 +105,8 @@
 				<button
 					id="avatarButton"
 					class="btn btn-icon variant-ghost justify-between mx-2 md:mx-4 my-2"
-					use:popup={profilePop}
+					on:click={() => goto('/home/profile')}
 				>
-					<!--  -->
 					<Avatar
 						initials={user?.user_metadata.username.charAt(0) ?? ''}
 						border="hover:!border-primary-500 hover:border-2"

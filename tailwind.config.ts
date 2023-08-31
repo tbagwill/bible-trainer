@@ -21,6 +21,7 @@ const config = {
 	plugins: [
 		skeleton({
 			themes: {
+				preset: [ 'skeleton', 'modern', 'crimson'],
 				custom: [ defaultBibleTrainerTheme ]
 			}
 		}),
