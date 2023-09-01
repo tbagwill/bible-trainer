@@ -1,4 +1,5 @@
 import { PUBLIC_BIBLE_API_KEY } from '$env/static/public';
+import { fail } from '@sveltejs/kit';
 
 export const actions = {
 	search: async ({ request, fetch }) => {
@@ -21,10 +22,12 @@ export const actions = {
 			.catch((err) => {
 				console.error(err);
 			});
+
 		const results = res;
 
 		return {
-			results: results
+			results: { ...results, empty: false },
+			success: true
 		};
 	}
 };
