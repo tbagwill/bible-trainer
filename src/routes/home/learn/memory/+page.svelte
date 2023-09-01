@@ -1,7 +1,12 @@
 <script>
-	import { memoryVerses, randomMemoryVerse } from '$lib/data/memory';
+	import { memoryVerses, randomMemoryVerse, shuffleMemoryQuestion } from '$lib/data/memory';
 	import { ProgressBar, RangeSlider, RadioGroup } from '@skeletonlabs/skeleton';
 	import { fade, fly, scale } from 'svelte/transition';
+	import { Timer } from '$lib/data/timer';
+
+	const correctSound = new Audio('/memory_assets/score-1.mp3');
+	const wrongSound = new Audio('/memory_assets/wrong-1.mp3');
+	const gameOverSound = new Audio('/memory_assets/gameover-1.wav');
 
 	let GAME_LENGTH = 5;
 	let DIFFICULTY = 1;
@@ -11,11 +16,9 @@
 
 	let GUESSES = 0;
 
-	let CURR_QUESTION = memoryVerses[randomMemoryVerse()];
+	let CURR_QUESTION = shuffleMemoryQuestion(memoryVerses[randomMemoryVerse()]);
 	let ANSWER_HIDDEN = true;
 	let ANSWER_DISABLED = false;
-
-	$: console.log(POINTS);
 
 	let GAME_STATE = ['READY', 'PLAYING', 'FINISHED'];
 	let STAGE_STATE = ['UNANSWERED', 'ANSWERED'];
@@ -34,22 +37,23 @@
 		// Check response
 		if (guess.correct) {
 			POINTS += INCREMENT;
+			correctSound.play();
 		} else {
-			// FAIL()
+			wrongSound.play();
 		}
 		// Reset after 2.5 seconds
 		setTimeout(() => {
 			ANSWER_HIDDEN = true;
 			ANSWER_DISABLED = false;
 			CURR_STAGE_STATE = STAGE_STATE[0];
-			CURR_QUESTION = memoryVerses[randomMemoryVerse()];
+			CURR_QUESTION = shuffleMemoryQuestion(memoryVerses[randomMemoryVerse()]);
 		}, '2500');
 	}
 
 	function resetGame() {
 		setTimeout(() => {
 			CURR_GAME_STATE = GAME_STATE[0];
-			CURR_QUESTION = memoryVerses[randomMemoryVerse()];
+			CURR_QUESTION = shuffleMemoryQuestion(memoryVerses[randomMemoryVerse()]);
 			CURR_STAGE_STATE = STAGE_STATE[0];
 			ANSWER_HIDDEN = true;
 			ANSWER_DISABLED = false;
@@ -61,7 +65,7 @@
 	function resetCurrentGame() {
 		setTimeout(() => {
 			CURR_GAME_STATE = GAME_STATE[1];
-			CURR_QUESTION = memoryVerses[randomMemoryVerse()];
+			CURR_QUESTION = shuffleMemoryQuestion(memoryVerses[randomMemoryVerse()]);
 			CURR_STAGE_STATE = STAGE_STATE[0];
 			ANSWER_HIDDEN = true;
 			ANSWER_DISABLED = false;
@@ -73,6 +77,7 @@
 	$: if (GUESSES >= GAME_LENGTH)
 		setTimeout(() => {
 			CURR_GAME_STATE = GAME_STATE[2];
+			gameOverSound.play();
 		}, '2500');
 	$: format = (status) => (ANSWER_HIDDEN ? 'variant-filled-primary ' : `variant-filled-${status}`);
 	$: disabled = ANSWER_DISABLED ? 'disabled' : '';
@@ -119,7 +124,10 @@
 		rounded="rounded-r-full"
 	/>
 	<div class="flex flex-col w-full p-4">
-		<div class="card variant-ringed-primary text-xl font-bold p-4 mb-8" in:fade={{ delay: 100 }}>
+		<div
+			class="card variant-ringed-primary question-box text-xl font-bold p-4 mb-8"
+			in:fade={{ delay: 100 }}
+		>
 			{CURR_QUESTION.question}
 		</div>
 		<div class="flex flex-col justify-center items-center space-y-4" in:scale={{ delay: 100 }}>
@@ -174,6 +182,3 @@
 		</div>
 	</div>
 {/if}
-
-<style>
-</style>

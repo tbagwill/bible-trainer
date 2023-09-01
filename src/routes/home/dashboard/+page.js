@@ -5,7 +5,7 @@ import {
 } from '$env/static/public';
 import { getVOTD } from '$lib/data/votd';
 
-export async function load({ parent }) {
+export async function load({ fetch, parent }) {
 	await parent();
 	const votd = getVOTD();
 

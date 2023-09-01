@@ -1,6 +1,6 @@
 import { PUBLIC_BIBLE_API_KEY } from '$env/static/public';
 
-export async function load({ params, parent }) {
+export async function load({ fetch, params, parent }) {
 	await parent();
 
 	const res = await fetch(
