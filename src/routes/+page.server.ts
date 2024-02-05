@@ -50,9 +50,9 @@ export const actions: Actions = {
         
         // if user data is returned successfully, redirect to email confirm
         if ( user ) {
-          cookies.set('email', signupForm.data.email )
+          /* @migration task: add path argument */ cookies.set('email', signupForm.data.email )
           console.log( 'sign up successful, user: ', user)
-          throw redirect( 300, `${url.origin}/confirm`)
+          redirect( 300, `${url.origin}/confirm`);
       }
     },
 
@@ -78,7 +78,7 @@ export const actions: Actions = {
 
         if( user ) {
           console.log( 'sign in successful, user: ', user)
-          throw redirect( 300, `${url.origin}/home/dashboard`)
+          redirect( 300, `${url.origin}/home/dashboard`);
         }
     }
   };

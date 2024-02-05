@@ -26,7 +26,7 @@ export const load = async ({ fetch, data, depends, url }) => {
 	}
 
 	if (url.pathname.includes('home') && !session) {
-		throw redirect(308, '/');
+		redirect(308, '/');
 	}
 
 	return { supabase, session };

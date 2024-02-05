@@ -6,8 +6,8 @@ export const POST: RequestHandler = async ({ locals }) => {
     const { error: err } = await locals.supabase.auth.signOut()
 
     if(err) {
-        throw error(500)
+        error(500);
     }
 
-    throw redirect( 303, '/' );
+    redirect( 303, '/' );
 }

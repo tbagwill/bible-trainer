@@ -28,7 +28,7 @@ export const handle: Handle = async ({ event, resolve }) => {
   if (event.url.pathname.startsWith(`${event.url.origin}/home`)) {
     const currSession = await event.locals.getSession()
     if( !currSession ) {
-      throw redirect( 303, '/' );
+      redirect( 303, '/' );
     }
   }
 

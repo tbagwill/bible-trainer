@@ -17,6 +17,7 @@
 	let GUESSES = 0;
 
 	let CURR_QUESTION = shuffleMemoryQuestion(memoryVerses[randomMemoryVerse()]);
+	console.log( "current question", CURR_QUESTION);
 	let ANSWER_HIDDEN = true;
 	let ANSWER_DISABLED = false;
 

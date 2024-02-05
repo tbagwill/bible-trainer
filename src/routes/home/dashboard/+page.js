@@ -10,7 +10,7 @@ export async function load({ fetch, parent }) {
 	const votd = getVOTD();
 
 	const res = await fetch(
-		`https://api.scripture.api.bible/v1/bibles/de4e12af7f28f599-01/verses/${votd}?content-type=text&include-notes=false&include-titles=false&include-chapter-numbers=false&include-verse-numbers=false&include-verse-spans=false&use-org-id=false`,
+		`https://api.scripture.api.bible/v1/bibles/de4e12af7f28f599-02/verses/${votd}?content-type=text&include-notes=false&include-titles=false&include-chapter-numbers=false&include-verse-numbers=false&include-verse-spans=false&use-org-id=false`,
 		{
 			headers: {
 				'api-key': PUBLIC_BIBLE_API_KEY
@@ -27,6 +27,8 @@ export async function load({ fetch, parent }) {
 		});
 
 	const verse = res;
+
+	console.log( verse );
 
 	const dev = await fetch(`https://${PUBLIC_RAPID_API_HOST_URL}/verse/${verse.reference}`, {
 		headers: {

@@ -32,7 +32,7 @@ export const actions: Actions = {
             return fail( 400, { invalid: true  })
         } else {
             console.log( 'successfully verified: ', verify )
-            throw redirect(300, `${url.origin}/home/dashboard`)
+            redirect(300, `${url.origin}/home/dashboard`);
         }
     }
 };
